@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111110" />
+<meta name="color-scheme" content="light dark" />
+<meta name="description" content="Password strength explainer + local-only tracker. Your passwords never leave this page." />
+<title>pass-lab — why is my password weak?</title>
+<link rel="stylesheet" href="styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js" defer></script>
+<script src="explain.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<main class="app">
+  <header class="head">
+    <h1>pass-lab</h1>
+    <p class="sub">Type a password. Learn <em>why</em> it's weak — then track your scores. Nothing you type ever leaves this page.</p>
+  </header>
+
+  <section class="card" aria-labelledby="check-h">
+    <h2 id="check-h" class="visually-hidden">Check a password</h2>
+    <div class="field">
+      <label for="pw">Password</label>
+      <div class="pw-row">
+        <input id="pw" type="password" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"
+               placeholder="correct horse battery staple" maxlength="256" />
+        <button id="show" type="button" aria-pressed="false" aria-label="Show password">show</button>
+      </div>
+    </div>
+
+    <p id="offline" class="notice" hidden>Scoring library didn't load (offline?). Tracking below still works.</p>
+
+    <div id="idle" class="idle">Start typing — the meter explains as you go.</div>
+
+    <div id="result" hidden>
+      <div class="meter-row">
+        <div class="meter" role="meter" aria-label="Password strength" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0" id="meter">
+          <div class="meter-fill" id="fill"></div>
+        </div>
+        <span class="label" id="label">–</span>
+      </div>
+      <p class="crack">Could take <strong id="crack">–</strong> to crack.</p>
+      <p class="why" id="why" aria-live="polite"></p>
+    </div>
+
+    <div class="save-row">
+      <label class="visually-hidden" for="entry-label">Label for this score</label>
+      <input id="entry-label" type="text" placeholder="label, e.g. email" maxlength="40" autocomplete="off" />
+      <button id="save" type="button" disabled>save score</button>
+    </div>
+    <p class="fine">Saved: score + label only. Never the password.</p>
+  </section>
+
+  <section class="card" aria-labelledby="hist-h">
+    <div class="hist-head">
+      <h2 id="hist-h">Tracker</h2>
+      <span class="count" id="count">0 entries</span>
+    </div>
+    <p id="empty" class="empty">Nothing saved yet. Scores you save will land here — newest first.</p>
+    <ul id="list" class="list"></ul>
+  </section>
+
+  <footer class="foot">
+    <p>Scores by <a href="https://github.com/dropbox/zxcvbn" rel="noopener">zxcvbn</a> · history lives in your browser's localStorage · no accounts, no server</p>
+  </footer>
+</main>
+</body>
+</html>
