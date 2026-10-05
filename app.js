@@ -43,7 +43,7 @@
     const r = zxcvbn(v.slice(0, 256));
     const score = PassLab.clampScore(r.score);
     const crackDisplay = PassLab.formatCrackTime(r.crack_times_seconds.offline_slow_hashing_1e4_per_second);
-    current = { score, crackDisplay, length: v.length };
+    current = { score, crackDisplay, length: Math.min(v.length, 256) };
 
     idle.hidden = true;
     result.hidden = false;
@@ -51,6 +51,7 @@
     fill.style.setProperty("--p", (score + 1) / 5);
     fill.style.setProperty("--fill", PassLab.colorFor(score));
     meter.setAttribute("aria-valuenow", String(score));
+    meter.setAttribute("aria-valuetext", PassLab.labelFor(score) + ", " + crackDisplay);
     label.textContent = PassLab.labelFor(score);
     crack.textContent = crackDisplay;
     why.textContent = PassLab.feedbackSentence(r.feedback, score);

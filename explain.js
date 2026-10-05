@@ -109,10 +109,6 @@
         persist(list);
         return list;
       },
-      clear() {
-        persist([]);
-        return [];
-      },
     };
   }
 
